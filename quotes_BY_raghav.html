@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quotes by Raghav</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    :root {
+      --bg: #f9f9f9;
+      --text: #1c1c1c;
+      --card-bg: #fff;
+      --accent: #333;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --shadow-hover: rgba(0, 0, 0, 0.12);
+    }
+
+    [data-theme='dark'] {
+      --bg: #121212;
+      --text: #f2f2f2;
+      --card-bg: #1e1e1e;
+      --accent: #e4e4e4;
+      --shadow: rgba(255, 255, 255, 0.08);
+      --shadow-hover: rgba(255, 255, 255, 0.12);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 2.5rem 1rem 1rem;
+    }
+
+    h1 {
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+    }
+
+    p.subtitle {
+      font-weight: 300;
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .theme-toggle {
+      background: var(--card-bg);
+      border: none;
+      border-radius: 50px;
+      box-shadow: 0 2px 8px var(--shadow);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--accent);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.95);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+      width: 90%;
+      max-width: 1000px;
+      padding: 1.5rem 0 3rem;
+    }
+
+    .quote-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.4rem;
+      box-shadow: 0 4px 15px var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      opacity: 0;
+      transform: translateY(30px);
+      will-change: transform, opacity;
+    }
+
+    .quote-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .quote-card:active {
+      transform: scale(0.98);
+    }
+
+    .quote-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px var(--shadow-hover);
+    }
+
+    .quote {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--accent);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.6rem; }
+      .quote { font-size: 0.95rem; }
+      .quote-card { padding: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Quotes by Raghav</h1>
+    <p class="subtitle">Introspective reflections on growth, healing, and honesty</p>
+    <button class="theme-toggle" id="themeBtn">🌙 Dark Mode</button>
+  </header>
+
+  <main id="quotes"></main>
+
+  <footer>
+    © <span id="year"></span> Raghav — All Rights Reserved
+  </footer>
+
+  <script>
+    // Quotes array (all 90)
+    const quotes = [
+      "I keep waiting for a version of myself who deserves forgiveness to show up and take over.",
+      "Regret is strange. It doesn’t stop you from repeating things; it just narrates them afterward.",
+      "I don’t sabotage happiness. I just stop protecting it.",
+      "Being self-aware doesn’t make you better. It just makes you harder to lie to.",
+      "I thought hitting rock bottom would feel definitive. It mostly felt repetitive.",
+      "I’m not afraid of being alone. I’m afraid of being seen clearly.",
+      "Every apology I give is sincere. That’s the problem.",
+      "I don’t spiral anymore. I descend in an organized fashion.",
+      "Sometimes I confuse honesty with cruelty because both feel relieving.",
+      "I want change without the awkward phase where I don’t recognize myself.",
+      "I don’t miss the drugs. I miss who I was allowed to be while using them.",
+      "Sobriety forces you to feel the pauses you used to skip.",
+      "I keep mourning versions of myself that never actually existed.",
+      "Healing is realizing no one is coming to stop you from repeating patterns.",
+      "I mistake intensity for intimacy, every time.",
+      "I’m great at noticing my flaws right after they’ve done damage.",
+      "I tell myself I’m tired when what I mean is ashamed.",
+      "I wanted an explanation for my behavior. Responsibility was disappointing.",
+      "I don’t crave chaos. I crave familiarity, even when it hurts.",
+      "Growth feels less like progress and more like losing excuses.",
+      "I thought self-destruction would feel dramatic. Mostly it feels administrative.",
+      "The worst habits don’t announce themselves. They blend in.",
+      "I keep trying to outrun a version of myself that knows my shortcuts.",
+      "I confuse being needed with being loved.",
+      "I don’t fear failure. I fear doing just well enough to stay the same.",
+      "Sometimes I feel like a side character in my own relapse.",
+      "I keep asking for second chances without changing the setup.",
+      "The mirror isn’t cruel. It’s just consistent.",
+      "I learned how to survive long before I learned how to live.",
+      "I don’t avoid my feelings. I schedule them poorly.",
+      "I want closure, but I keep reopening the same story.",
+      "I’m excellent at explaining myself and terrible at changing.",
+      "The past doesn’t chase me. I keep visiting it.",
+      "I confuse numbness with peace because both are quiet.",
+      "I don’t hate who I am. I hate how predictable I’ve become.",
+      "Every bad decision starts with me saying, “Just this once.”",
+      "I don’t feel broken. I feel unfinished and impatient.",
+      "I forgive myself quickly and remember slowly.",
+      "I wanted rock bottom to be lower so I’d take it seriously.",
+      "I keep waiting for motivation when discipline already showed up.",
+      "I don’t want redemption. I want relief.",
+      "My worst habits feel like old friends who know my schedule.",
+      "I learned how to disappoint people without raising my voice.",
+      "I’m not avoiding responsibility. I’m circling it carefully.",
+      "I keep confusing effort with outcome.",
+      "I don’t relapse suddenly. I drift deliberately.",
+      "I wanted my pain to mean something. Turns out it just needed attention.",
+      "I don’t lie to others much anymore. I outsource that to hope.",
+      "The problem with insight is it doesn’t stop momentum.",
+      "I keep mistaking familiarity for safety.",
+      "I don’t chase happiness. I chase moments where I forget to be sad.",
+      "Accountability feels heavier when no one is yelling.",
+      "I’m great at surviving consequences and bad at learning from them.",
+      "I wanted a turning point. I got a slow bend.",
+      "I don’t need forgiveness. I need consistency.",
+      "I thought I was complicated. I was just repetitive.",
+      "I confuse comfort with healing because both feel warm at first.",
+      "I’m not scared of starting over. I’m scared of starting honestly.",
+      "Every relapse begins as nostalgia.",
+      "I don’t fear the future. I fear meeting myself there unchanged.",
+      "I wanted pain to justify my behavior. It didn’t ask to be involved.",
+      "I don’t self-sabotage on purpose. I just stop intervening.",
+      "I learned how to explain my flaws before I learned how to fix them.",
+      "I keep mistaking attention for affection.",
+      "I don’t miss chaos. I miss not having to think.",
+      "I’m very good at noticing patterns and very bad at interrupting them.",
+      "I don’t want to be better. I want it to be easier.",
+      "I confuse guilt with growth because both feel heavy.",
+      "I thought honesty would save me. Turns out it just exposed me.",
+      "I don’t avoid change. I delay it politely.",
+      "I keep apologizing for the same version of myself.",
+      "I don’t fear relapse. I fear how calm it feels beforehand.",
+      "I wanted clarity. I got responsibility.",
+      "I don’t dislike routines. I dislike the ones that reveal me.",
+      "I confuse being understood with being excused.",
+      "I’m not haunted by the past. I invite it in.",
+      "I thought awareness was the finish line. It was the starting gun.",
+      "I don’t crave destruction. I crave silence.",
+      "I keep expecting change to feel dramatic. It mostly feels boring.",
+      "I don’t hate myself. I’m just tired of negotiating with myself.",
+      "I wanted healing to feel rewarding. It mostly feels necessary.",
+      "I don’t sabotage relationships. I test how much they’ll tolerate.",
+      "I confuse survival skills with personality traits.",
+      "I don’t relapse because I forget the pain. I relapse because I remember the relief.",
+      "I thought rock bottom would humble me. It mostly inconvenienced me.",
+      "I don’t fear being alone. I fear being alone with clarity.",
+      "I keep mistaking endurance for progress.",
+      "I wanted meaning. I got maintenance.",
+      "I don’t need a fresh start. I need follow-through.",
+      "I’m still here, which is not a victory, but it’s not nothing."
+    ];
+
+    const container = document.getElementById('quotes');
+    quotes.forEach((q) => {
+      const card = document.createElement('div');
+      card.className = 'quote-card';
+      card.innerHTML = `<p class="quote">“${q}”</p>`;
+      container.appendChild(card);
+    });
+
+    // Reveal on scroll (smooth fade-in)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.quote-card').forEach(card => observer.observe(card));
+
+    // Theme toggle + system preference detection
+    const themeBtn = document.getElementById('themeBtn');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark) document.body.dataset.theme = 'dark';
+
+    themeBtn.onclick = () => {
+      const current = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.body.dataset.theme = current;
+      themeBtn.textContent = current === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+    };
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
